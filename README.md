@@ -1,4 +1,4 @@
-# AI-Generated Misinformation Risk Assessment Tool
+ # AI-Generated Misinformation Risk Assessment Tool
 
 A small Flask web application built to accompany the MSc Cyber Security
 dissertation *"AI-Generated Misinformation as an Emerging Cybersecurity
