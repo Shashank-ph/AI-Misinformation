@@ -1,0 +1,358 @@
+/* style.css
+   Shared stylesheet for the AI-Generated Misinformation Risk Assessment
+   Matrix web application. Kept as plain CSS (no framework) to match the
+   simple, MSc-level coding approach used throughout the project. */
+
+:root {
+  --navy: #1f4e79;
+  --blue: #2e75b6;
+  --light-blue: #d6e4f0;
+  --light-grey: #f2f2f2;
+  --grey-text: #595959;
+  --white: #ffffff;
+  --low: #3b6d11;
+  --low-bg: #eaf3de;
+  --moderate: #854f0b;
+  --moderate-bg: #faeeda;
+  --high: #993c1d;
+  --high-bg: #faece7;
+  --extreme: #a32d2d;
+  --extreme-bg: #fcebeb;
+  --border: #cccccc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--light-grey);
+  color: #222222;
+}
+
+header.app-header {
+  background-color: var(--navy);
+  color: var(--white);
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header.app-header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+nav.app-nav a {
+  color: var(--white);
+  text-decoration: none;
+  margin-left: 18px;
+  font-size: 14px;
+}
+
+nav.app-nav a:hover {
+  text-decoration: underline;
+}
+
+main.container {
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 0 20px 40px 20px;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  color: var(--navy);
+  margin-top: 0;
+}
+
+.card h3 {
+  color: var(--blue);
+}
+
+.flash-messages {
+  max-width: 960px;
+  margin: 16px auto 0 auto;
+  padding: 0 20px;
+}
+
+.flash {
+  background-color: #fff2cc;
+  border: 1px solid #d9a441;
+  color: #63380a;
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.login-wrapper {
+  max-width: 380px;
+  margin: 80px auto;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 30px 30px 20px 30px;
+}
+
+.login-wrapper h1 {
+  color: var(--navy);
+  font-size: 22px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.login-wrapper .subtitle {
+  text-align: center;
+  color: var(--grey-text);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--grey-text);
+  margin-bottom: 4px;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button, .btn {
+  background-color: var(--navy);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 18px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+button:hover, .btn:hover {
+  background-color: var(--blue);
+}
+
+.demo-hint {
+  background-color: var(--light-blue);
+  color: var(--navy);
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-top: 16px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.tool-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--blue);
+  border-radius: 6px;
+  padding: 18px;
+}
+
+.tool-card h3 {
+  margin-top: 0;
+}
+
+.indicator-row {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+
+.indicator-row .desc {
+  font-size: 12px;
+  color: var(--grey-text);
+  margin-top: 4px;
+}
+
+table.risk-matrix {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+}
+
+table.risk-matrix th, table.risk-matrix td {
+  border: 1px solid var(--border);
+  padding: 10px 6px;
+  text-align: center;
+  font-size: 13px;
+}
+
+table.risk-matrix th {
+  background-color: var(--light-blue);
+  color: var(--navy);
+}
+
+.cell-Low { background-color: var(--low-bg); color: var(--low); font-weight: bold; }
+.cell-Moderate { background-color: var(--moderate-bg); color: var(--moderate); font-weight: bold; }
+.cell-High { background-color: var(--high-bg); color: var(--high); font-weight: bold; }
+.cell-Extreme { background-color: var(--extreme-bg); color: var(--extreme); font-weight: bold; }
+
+.cell-active {
+  outline: 3px solid var(--navy);
+  outline-offset: -3px;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.badge-Low { background-color: var(--low-bg); color: var(--low); }
+.badge-Moderate { background-color: var(--moderate-bg); color: var(--moderate); }
+.badge-High { background-color: var(--high-bg); color: var(--high); }
+.badge-Extreme { background-color: var(--extreme-bg); color: var(--extreme); }
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.result-metric {
+  background: var(--light-grey);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.result-metric .label {
+  font-size: 12px;
+  color: var(--grey-text);
+}
+
+.result-metric .value {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--navy);
+}
+
+.warning-box {
+  background-color: var(--extreme-bg);
+  border: 1px solid var(--extreme);
+  color: var(--extreme);
+  padding: 14px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin: 16px 0;
+}
+
+.checklist-step {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.checklist-step .step-number {
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 50%;
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.resource-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: var(--white);
+}
+
+.resource-card a {
+  color: var(--blue);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.resource-card a:hover {
+  text-decoration: underline;
+}
+
+.region-heading {
+  color: var(--navy);
+  border-bottom: 2px solid var(--blue);
+  padding-bottom: 4px;
+  margin-top: 30px;
+}
+
+.pill {
+  display: inline-block;
+  background: var(--light-blue);
+  color: var(--navy);
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+table.simple-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0 20px 0;
+}
+
+table.simple-table th, table.simple-table td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.simple-table th {
+  background-color: var(--light-blue);
+  color: var(--navy);
+}
+
+footer.app-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--grey-text);
+  padding: 20px;
+}

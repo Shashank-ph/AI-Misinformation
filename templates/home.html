@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>AI-Generated Misinformation: Public Resources &amp; Risk Assessment Tool</h2>
+  <p>
+    This site accompanies an MSc Cyber Security dissertation on AI-generated
+    misinformation as a cybersecurity governance challenge. Two resources
+    below are free and open to everyone. A third tool, the organisational
+    Risk Matrix, requires a login because it is intended for cybersecurity
+    and risk professionals.
+  </p>
+</div>
+
+<div class="tool-grid">
+
+  <div class="tool-card">
+    <h3>Free Fact-Checker Resources</h3>
+    <p>
+      Independent, free fact-checking organisations for India, the European
+      Union and the United States, plus an international tool for
+      cross-checking claims that have already been investigated.
+    </p>
+    <a class="btn" href="{{ url_for('fact_checkers') }}">View Resources &rarr;</a>
+  </div>
+
+  <div class="tool-card">
+    <h3>Recognising AI-Generated Content</h3>
+    <p>
+      Practical, content-specific checks for text, images, audio and video,
+      plus a list of free or freemium AI-detection tools that can support
+      &mdash; but never replace &mdash; human judgement.
+    </p>
+    <a class="btn" href="{{ url_for('ai_checklist') }}">View Guidance &rarr;</a>
+  </div>
+
+  <div class="tool-card">
+    <h3>Risk Matrix Tool (Analyst Login Required)</h3>
+    <p>
+      Score five likelihood indicators and three impact factors for
+      suspected AI-generated content and calculate an overall risk level
+      using the 5&times;5 matrix from the dissertation's governance
+      framework (Appendix O).
+    </p>
+    <a class="btn" href="{{ url_for('login') }}">Analyst Login &rarr;</a>
+  </div>
+
+</div>
+
+{% endblock %}

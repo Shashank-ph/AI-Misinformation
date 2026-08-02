@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<div class="login-wrapper">
+  <h1>Sign In</h1>
+  <p class="subtitle">AI-Generated Misinformation<br>Risk Assessment Tool</p>
+
+  <form method="POST" action="{{ url_for('login') }}">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required autofocus>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Log In</button>
+  </form>
+
+  <div class="demo-hint">
+    <strong>Demonstration credentials</strong> (for marking / evaluation only):<br>
+    Username: <code>analyst</code> &nbsp; Password: <code>ChangeMe123</code>
+  </div>
+</div>
+
+{% endblock %}

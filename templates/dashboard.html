@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>Welcome, {{ username }}</h2>
+  <p>
+    This prototype supports the dissertation's Cybersecurity Governance
+    Framework for AI-Generated Misinformation (Appendix N) by putting the
+    verification and risk-calculation stages of that framework
+    (<em>Verify and Assess</em>) into a simple, usable tool, alongside two
+    resources aimed at strengthening public resilience.
+  </p>
+</div>
+
+<div class="tool-grid">
+
+  <div class="tool-card">
+    <h3>1. Risk Matrix Tool</h3>
+    <p>
+      Score five likelihood indicators and three impact factors for a piece
+      of suspected AI-generated content. The tool calculates the likelihood
+      rating, impact rating and overall risk level using the 5&times;5 matrix
+      from Appendix O, and shows the minimum required response.
+    </p>
+    <a class="btn" href="{{ url_for('risk_matrix') }}">Open Risk Matrix &rarr;</a>
+  </div>
+
+  <div class="tool-card">
+    <h3>2. Free Fact-Checker Resources</h3>
+    <p>
+      A curated list of independent, free fact-checking organisations for
+      India, the European Union and the United States, plus an
+      international tool for cross-checking claims already investigated
+      by verified publishers.
+    </p>
+    <a class="btn" href="{{ url_for('fact_checkers') }}">View Resources &rarr;</a>
+  </div>
+
+  <div class="tool-card">
+    <h3>3. Recognising AI-Generated Content</h3>
+    <p>
+      Practical, content-specific checks for text, images, audio and video,
+      plus a list of free or freemium AI-detection tools that can support
+      &mdash; but never replace &mdash; human judgement.
+    </p>
+    <a class="btn" href="{{ url_for('ai_checklist') }}">View Guidance &rarr;</a>
+  </div>
+
+</div>
+
+{% endblock %}

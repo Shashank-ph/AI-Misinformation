@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Recognising AI-Generated Content{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>Recognising AI-Generated Content</h2>
+  <p>
+    Realistic AI-synthesised content can still increase belief in false
+    claims even when it contains technical flaws. Visual or audio realism
+    is therefore <strong>not</strong> evidence of authenticity on its own
+    &mdash; always combine the checks below with source verification and,
+    where a claim is significant, a check against the
+    <a href="{{ url_for('fact_checkers') }}">fact-checker resources</a>.
+  </p>
+</div>
+
+<div class="card">
+  <h3>Content-specific checks</h3>
+  <table class="simple-table">
+    <tr><th>Content type</th><th>What to check</th></tr>
+    {% for check in content_checks %}
+      <tr><td><strong>{{ check.content_type }}</strong></td><td>{{ check.checks }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="card">
+  <h3>AI checker list &mdash; free / freemium detection tools</h3>
+  <p class="desc">
+    These tools can support your judgement but cannot prove or disprove AI
+    generation on their own. Detection technology is uncertain and can
+    produce false positives and false negatives, so treat every result as
+    one piece of evidence, not a final verdict.
+  </p>
+
+  {% for tool in ai_tools %}
+    <div class="resource-card">
+      <a href="{{ tool.url }}" target="_blank" rel="noopener noreferrer">{{ tool.name }}</a>
+      <span class="pill">{{ tool.content_type }}</span>
+      <span class="pill">{{ tool.cost }}</span>
+      <p>{{ tool.description }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="card">
+  <h3>Quick tips</h3>
+  <ul>
+    <li>Pause before sharing anything that triggers a strong, immediate emotional reaction &mdash; that reaction is often the intended effect of manipulated content.</li>
+    <li>Look for a plausible original source rather than relying on how many times something has been shared.</li>
+    <li>For anything involving money, credentials, safety or an urgent instruction from someone in authority, confirm it independently through a channel you already trust &mdash; never through the same channel the request arrived on.</li>
+  </ul>
+</div>
+
+{% endblock %}

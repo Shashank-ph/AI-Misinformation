@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Risk Matrix{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>AI-Generated Misinformation Risk Matrix</h2>
+  <p>
+    Complete the verification checklist below before scoring. Enter a score
+    of 1 (low suspicion) to 5 (high suspicion) for each likelihood
+    indicator, and a score of 1 (insignificant) to 5 (severe) for each
+    impact factor. This implements the calculation set out in Appendix O.
+  </p>
+
+  <details>
+    <summary><strong>Verification checklist (complete before scoring)</strong></summary>
+    {% for step in checklist_steps %}
+      <div class="checklist-step">
+        <div class="step-number">{{ step.step }}</div>
+        <div>
+          <strong>{{ step.action }}</strong><br>
+          <span class="desc">{{ step.detail }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </details>
+</div>
+
+<div class="card">
+  <form method="POST" action="{{ url_for('risk_matrix') }}">
+
+    <label for="case_reference">Case reference (optional)</label>
+    <input type="text" id="case_reference" name="case_reference"
+           placeholder="e.g. CASE-2026-014" value="{{ form_values.get('case_reference', '') }}">
+
+    <label for="content_description">Content description (optional)</label>
+    <textarea id="content_description" name="content_description" rows="2"
+      placeholder="Brief description of the suspected content, e.g. video, source, claim">{{ form_values.get('content_description', '') }}</textarea>
+
+    <h3>Likelihood indicators</h3>
+    {% for indicator in indicators %}
+      <div class="indicator-row">
+        <label for="{{ indicator.key }}">{{ indicator.label }}</label>
+        <select id="{{ indicator.key }}" name="{{ indicator.key }}" required>
+          <option value="">Select a score...</option>
+          {% for score in [1,2,3,4,5] %}
+            <option value="{{ score }}" {% if form_values.get(indicator.key)|string == score|string %}selected{% endif %}>
+              {{ score }}
+            </option>
+          {% endfor %}
+        </select>
+        <div class="desc">
+          1: {{ indicator.low }} &nbsp;|&nbsp; 3: {{ indicator.mid }} &nbsp;|&nbsp; 5: {{ indicator.high }}
+        </div>
+      </div>
+    {% endfor %}
+
+    <h3>Impact factors</h3>
+    <p class="desc">
+      The overall impact rating is the <strong>highest</strong> of the three
+      scores below, not an average (Appendix O.4).
+    </p>
+    {% for factor in impact_factors %}
+      <div class="indicator-row">
+        <label for="{{ factor.key }}">{{ factor.label }}</label>
+        <select id="{{ factor.key }}" name="{{ factor.key }}" required>
+          <option value="">Select a score...</option>
+          {% for score in [1,2,3,4,5] %}
+            <option value="{{ score }}" {% if form_values.get(factor.key)|string == score|string %}selected{% endif %}>
+              {{ score }} &mdash; {{ impact_labels[score] }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+
+    <button type="submit">Calculate Risk</button>
+  </form>
+</div>
+
+{% if result %}
+<div class="card">
+  <h2>Assessment Result</h2>
+
+  <div class="result-grid">
+    <div class="result-metric">
+      <div class="label">Case reference</div>
+      <div class="value">{{ result.case_reference }}</div>
+    </div>
+    <div class="result-metric">
+      <div class="label">Likelihood score</div>
+      <div class="value">{{ result.likelihood_score }} / 5</div>
+    </div>
+    <div class="result-metric">
+      <div class="label">Likelihood rating</div>
+      <div class="value">{{ result.likelihood_rating }} &ndash; {{ result.likelihood_label }}</div>
+    </div>
+    <div class="result-metric">
+      <div class="label">Impact rating</div>
+      <div class="value">{{ result.impact_rating }} &ndash; {{ result.impact_label }}</div>
+    </div>
+  </div>
+
+  <p>
+    <strong>Overall risk level:</strong>
+    <span class="risk-badge badge-{{ result.risk_level }}">{{ result.risk_level }}</span>
+  </p>
+
+  <p><strong>Minimum required response:</strong> {{ result.response_requirement }}</p>
+
+  <h3>5&times;5 risk matrix</h3>
+  <table class="risk-matrix">
+    <tr>
+      <th>Likelihood &darr; / Impact &rarr;</th>
+      {% for i in [1,2,3,4,5] %}<th>{{ i }} {{ impact_labels[i] }}</th>{% endfor %}
+    </tr>
+    {% for l in [5,4,3,2,1] %}
+    <tr>
+      <th>{{ l }} {{ likelihood_labels[l] }}</th>
+      {% for i in [1,2,3,4,5] %}
+        {% set cell = matrix[l][i-1] %}
+        {% if l == result.likelihood_rating and i == result.impact_rating %}
+          <td class="cell-{{ cell }} cell-active">{{ cell }} &#9668;</td>
+        {% else %}
+          <td class="cell-{{ cell }}">{{ cell }}</td>
+        {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+
+  <div class="warning-box">
+    <strong>Independent confirmation rule (Appendix O.12):</strong> regardless
+    of the score above, the following must always be independently confirmed
+    through an established channel before anyone acts on them:
+    <ul>
+      {% for item in confirmation_items %}<li>{{ item }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <h3>Verification conclusion &mdash; select the one that best fits your evidence</h3>
+  <table class="simple-table">
+    <tr><th>Conclusion</th><th>Meaning</th></tr>
+    {% for c in verification_conclusions %}
+      <tr><td>{{ c.conclusion }}</td><td>{{ c.meaning }}</td></tr>
+    {% endfor %}
+  </table>
+  <p class="desc">
+    This tool produces a semi-quantitative governance rating, not a
+    statistical probability or forensic proof of AI generation (Appendix O.1).
+  </p>
+</div>
+{% endif %}
+
+{% endblock %}

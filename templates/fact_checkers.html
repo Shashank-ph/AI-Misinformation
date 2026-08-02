@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Fact-Checker Resources{% endblock %}
+{% block content %}
+
+<div class="card">
+  <h2>Free Fact-Checker Resources</h2>
+  <p>
+    These are independent, free fact-checking organisations. Use them to
+    check whether a claim, image or video has already been investigated
+    before you believe or share it. No single resource should be treated
+    as the final word &mdash; cross-check across more than one source
+    where possible.
+  </p>
+</div>
+
+{% for region, items in resources.items() %}
+  <h3 class="region-heading">{{ region }}</h3>
+  {% for item in items %}
+    <div class="resource-card">
+      <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.name }}</a>
+      <p>{{ item.description }}</p>
+    </div>
+  {% endfor %}
+{% endfor %}
+
+<div class="card">
+  <h3>How to use these resources</h3>
+  <ol>
+    <li>Search the claim, headline or a short quote directly on the fact-checker's site.</li>
+    <li>For images or videos, use Google Fact Check Explorer or a reverse-image search first.</li>
+    <li>If nothing has been published yet, treat the content as <strong>unverified</strong> rather than assuming it is true or false.</li>
+    <li>Check more than one source where the claim is significant or could cause harm if wrong.</li>
+  </ol>
+</div>
+
+{% endblock %}
