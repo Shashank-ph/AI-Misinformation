@@ -2,7 +2,7 @@
 risk_engine.py
 
 Plain-Python implementation of the AI-Generated Misinformation Risk
-Assessment Matrix described in Appendix O of the dissertation:
+Assessment Matrix described in Appendix K of the dissertation:
 
     "AI-Generated Misinformation as an Emerging Cybersecurity Threat:
     Governance and Regulatory Challenges in the Era of Generative AI"
@@ -13,57 +13,75 @@ level. All reference data (indicators, matrix, checklists, resources)
 is stored as simple Python lists/dictionaries so it can be inspected
 or edited without touching the Flask routes in app.py.
 
-Sections map directly onto Appendix O of the dissertation:
-    O.2 / O.3  Likelihood indicators and calculation
-    O.4        Impact assessment
-    O.5        5x5 risk matrix
-    O.6        Response requirements
-    O.9        Verification checklist
-    O.10       Content-specific verification checks
-    O.12       Independent confirmation rule
+Sections map directly onto Appendix K of the dissertation:
+    K.2 (2.1-2.3)  Likelihood indicators, calculation and rating
+    K.2 (2.4) / K.3  Impact assessment and rating
+    K.4            5x5 risk matrix
+    K.5            Response requirements
+    K.8            Verification checklist (Section 8)
+    K.9            Content-specific verification checks (Section 9)
+    K.10           Verification conclusions (Section 10)
+    K.11           Independent confirmation rule (Section 11)
+    K.12           Minimum verification record (Section 12)
 """
 
 # ---------------------------------------------------------------------------
-# O.2 / O.3 - Likelihood indicators
+# K.2 (2.1-2.3) - Likelihood indicators
 # ---------------------------------------------------------------------------
 # Each indicator is scored 1-5 by the user. 1 = low suspicion, 5 = high
 # suspicion. The five scores are averaged to produce the likelihood score.
+#
+# Appendix K itself defines worked anchors only at 1, 3 and 5, and states
+# that "scores of 2 and 4 should be used where the evidence lies between
+# the stated anchors." The level_2 and level_4 descriptions below make
+# that intermediate guidance explicit for each indicator, so the tool
+# shows a full 1-5 legend rather than leaving 2 and 4 undefined.
 
 LIKELIHOOD_INDICATORS = [
     {
         "key": "source_credibility",
         "label": "Source credibility",
-        "low": "Verified official or accountable source",
-        "mid": "Source partially verifiable or indirect",
-        "high": "Anonymous, impersonated or demonstrably unreliable source",
+        "level_1": "Verified official or accountable source",
+        "level_2": "Source is generally recognised but not fully verified, or minor inconsistencies exist",
+        "level_3": "Source partially verifiable or indirect",
+        "level_4": "Source shows meaningful signs of being unreliable, unofficial or difficult to verify",
+        "level_5": "Anonymous, impersonated or demonstrably unreliable source",
     },
     {
         "key": "content_authenticity",
         "label": "Content authenticity",
-        "low": "No material anomalies; independently corroborated",
-        "mid": "Some visual, audio, textual or contextual anomalies",
-        "high": "Strong artefacts or reliable detection evidence of synthetic alteration",
+        "level_1": "No material anomalies; independently corroborated",
+        "level_2": "Minor stylistic or technical oddities that do not clearly indicate manipulation",
+        "level_3": "Some visual, audio, textual or contextual anomalies",
+        "level_4": "Multiple anomalies, or a single strong technical indicator suggesting alteration",
+        "level_5": "Strong artefacts or reliable detection evidence of synthetic alteration",
     },
     {
         "key": "metadata_integrity",
         "label": "Metadata integrity",
-        "low": "Metadata / provenance present and consistent",
-        "mid": "Metadata incomplete or inconclusive",
-        "high": "Metadata absent, contradictory or shows evidence of manipulation",
+        "level_1": "Metadata / provenance present and consistent",
+        "level_2": "Metadata present but has minor gaps or inconsistencies",
+        "level_3": "Metadata incomplete or inconclusive",
+        "level_4": "Metadata largely missing or shows signs of tampering",
+        "level_5": "Metadata absent, contradictory or shows evidence of manipulation",
     },
     {
         "key": "fact_consistency",
         "label": "Fact consistency",
-        "low": "Consistent with authoritative sources and confirmed timelines",
-        "mid": "Important claims remain unverified",
-        "high": "Directly contradicted by authoritative evidence or established facts",
+        "level_1": "Consistent with authoritative sources and confirmed timelines",
+        "level_2": "Broadly consistent, with minor unverified details",
+        "level_3": "Important claims remain unverified",
+        "level_4": "Significant claims conflict with available evidence",
+        "level_5": "Directly contradicted by authoritative evidence or established facts",
     },
     {
         "key": "propagation_pattern",
         "label": "Propagation pattern",
-        "low": "Normal and traceable distribution",
-        "mid": "Unusual spread requiring examination",
-        "high": "Coordinated amplification, bot-like behaviour or unexplained viral growth",
+        "level_1": "Normal and traceable distribution",
+        "level_2": "Slightly unusual spread that is still plausibly organic",
+        "level_3": "Unusual spread requiring examination",
+        "level_4": "Spread pattern shows signs of coordination or inauthentic amplification",
+        "level_5": "Coordinated amplification, bot-like behaviour or unexplained viral growth",
     },
 ]
 
@@ -76,9 +94,9 @@ LIKELIHOOD_LABELS = {
 }
 
 # ---------------------------------------------------------------------------
-# O.4 - Impact factors
+# K.2 (2.4) / K.3 - Impact factors
 # ---------------------------------------------------------------------------
-# Impact is assessed across three factors. Per Appendix O ("Where several
+# Impact is assessed across three factors. Per Appendix K ("Where several
 # impact categories apply, the highest reasonably supported impact score
 # should be selected"), the overall impact rating is the MAXIMUM of the
 # three factor scores, not an average.
@@ -111,7 +129,7 @@ IMPACT_CRITERIA = {
 }
 
 # ---------------------------------------------------------------------------
-# O.5 - 5x5 Risk Matrix (Table O.4)
+# K.4 - 5x5 Risk Matrix (Table K.4)
 # ---------------------------------------------------------------------------
 # Keyed by likelihood rating (1-5). Each value is a list of 5 risk levels
 # for impact ratings 1-5 respectively.
@@ -127,24 +145,73 @@ RISK_MATRIX = {
 RISK_LEVEL_ORDER = ["Low", "Moderate", "High", "Extreme"]
 
 # ---------------------------------------------------------------------------
-# O.6 - Response requirements (Table O.5)
+# K.5 - Response requirements (Table K.5)
 # ---------------------------------------------------------------------------
+# Each entry expands on the minimum response defined in Table K.5, adding a
+# short explanation of what the risk level typically means (the issue) and
+# the recommended course of action (the probable solution), so the tool
+# gives the user actionable guidance rather than a single instruction line.
 
 RESPONSE_REQUIREMENTS = {
-    "Low": "Record where appropriate, retain relevant evidence and continue "
-           "routine monitoring.",
-    "Moderate": "Conduct further verification, notify the relevant business "
-                "owner and document the assessment decision.",
-    "High": "Initiate formal cross-functional review involving cybersecurity, "
-            "risk, legal and communications; preserve evidence and begin "
-            "containment.",
-    "Extreme": "Activate the incident or crisis-management process; escalate "
-               "to executive leadership and consider urgent public, platform, "
-               "regulatory or law-enforcement notification.",
+    "Low": (
+        "At this level, the available indicators suggest the content is "
+        "unlikely to be maliciously AI-generated, or the potential "
+        "consequences are minimal even if it were. The main risk is that a "
+        "low-priority item is later found to be more significant than first "
+        "assessed. The recommended response is to record the assessment "
+        "where appropriate, retain the original content and any supporting "
+        "evidence, and continue routine monitoring in case new information "
+        "emerges. No further escalation is required unless the likelihood "
+        "or impact rating changes."
+    ),
+    "Moderate": (
+        "A Moderate rating means several indicators raise a credible "
+        "concern, but the evidence is not yet strong enough, or the "
+        "potential impact not severe enough, to justify a full incident "
+        "response. Left unaddressed, moderate-risk content can still cause "
+        "measurable reputational, financial or operational harm to a "
+        "defined stakeholder group. The recommended response is to conduct "
+        "further verification using the checklist in this tool, notify the "
+        "relevant business owner so they are aware of the exposure, and "
+        "document the assessment decision and rationale for audit purposes. "
+        "The case should be re-assessed if new evidence emerges or the "
+        "content continues to spread."
+    ),
+    "High": (
+        "A High rating means multiple indicators strongly suggest "
+        "AI-generated or manipulated content combined with a significant "
+        "potential impact, such as major disruption, financial loss or "
+        "broad public circulation. Informal or single-owner handling is no "
+        "longer sufficient at this stage, because the organisation is "
+        "exposed to material harm if the content is not addressed quickly "
+        "and correctly. The recommended response is to initiate a formal "
+        "cross-functional review involving cybersecurity, risk, legal and "
+        "communications, preserve all available evidence in line with the "
+        "verification record requirements, and begin containment actions "
+        "such as restricting further distribution while the assessment is "
+        "finalised. Senior stakeholders should be kept informed throughout, "
+        "since the case may escalate to Extreme if the situation develops."
+    ),
+    "Extreme": (
+        "An Extreme rating indicates a strong likelihood of deliberate "
+        "AI-generated misinformation combined with the potential for "
+        "serious safety, financial, regulatory or societal harm, such as "
+        "election interference or critical-infrastructure disruption. This "
+        "combination requires an immediate, coordinated response rather "
+        "than routine escalation, because delay can allow the harm to "
+        "compound rapidly as the content spreads. The recommended response "
+        "is to activate the organisation's incident or crisis-management "
+        "process immediately, escalate to executive leadership without "
+        "delay, and consider urgent notification to the public, affected "
+        "platforms, regulators or law enforcement as appropriate to the "
+        "nature of the harm. All evidence must be preserved throughout the "
+        "response to support any subsequent investigation, regulatory "
+        "enquiry or legal action."
+    ),
 }
 
 # ---------------------------------------------------------------------------
-# O.9 - Verification checklist (Table O.7)
+# K.8 - Verification checklist (Table K.7, Section 8)
 # ---------------------------------------------------------------------------
 
 VERIFICATION_CHECKLIST = [
@@ -203,7 +270,7 @@ VERIFICATION_CHECKLIST = [
 ]
 
 # ---------------------------------------------------------------------------
-# O.9 - Verification conclusions (Table O.9)
+# K.10 - Verification conclusions (Table K.8, Section 10)
 # ---------------------------------------------------------------------------
 
 VERIFICATION_CONCLUSIONS = [
@@ -239,7 +306,7 @@ VERIFICATION_CONCLUSIONS = [
 ]
 
 # ---------------------------------------------------------------------------
-# O.10 - Content-specific verification checks (Table O.8)
+# K.9 - Content-specific verification checks (Section 9)
 # ---------------------------------------------------------------------------
 
 CONTENT_SPECIFIC_CHECKS = [
@@ -282,7 +349,7 @@ CONTENT_SPECIFIC_CHECKS = [
 ]
 
 # ---------------------------------------------------------------------------
-# O.12 - Independent confirmation rule
+# K.11 - Independent confirmation rule (Section 11)
 # ---------------------------------------------------------------------------
 # Regardless of the calculated score, these actions must be independently
 # confirmed through an established channel before anyone acts on them.
@@ -300,8 +367,10 @@ INDEPENDENT_CONFIRMATION_ITEMS = [
 # Curated fact-checking resources (public-facing screen)
 # ---------------------------------------------------------------------------
 # Real, free, independently operated fact-checking services, grouped by
-# the dissertation's comparative regulatory scope (India / EU / USA) plus
-# international tools that work across all three.
+# the dissertation's comparative regulatory scope (India / EU / UK / USA)
+# plus a Global category for services that are not specific to one
+# jurisdiction. Dictionary insertion order controls the display order on
+# the Fact-Checkers screen.
 
 FACT_CHECK_RESOURCES = {
     "India": [
@@ -341,6 +410,22 @@ FACT_CHECK_RESOURCES = {
             "url": "https://euvsdisinfo.eu/",
         },
     ],
+    "United Kingdom": [
+        {
+            "name": "Full Fact",
+            "description": "The UK's largest independent fact-checking "
+                            "charity, covering politics, health, the economy "
+                            "and viral online claims.",
+            "url": "https://fullfact.org/",
+        },
+        {
+            "name": "BBC Verify",
+            "description": "Specialist BBC News team using open-source "
+                            "intelligence, satellite imagery and data "
+                            "analysis to verify video, images and claims.",
+            "url": "https://www.bbc.com/news/bbcverify",
+        },
+    ],
     "United States": [
         {
             "name": "Snopes",
@@ -366,16 +451,46 @@ FACT_CHECK_RESOURCES = {
             "name": "AP Fact Check",
             "description": "Associated Press's ongoing fact-checking "
                             "coverage of news, politics and viral content.",
-            "url": "https://apnews.com/hub/ap-fact-check",
+            "url": "https://apnews.com/ap-fact-check",
+        },
+        {
+            "name": "Check Your Fact",
+            "description": "US-based fact-checking outlet reviewing viral "
+                            "claims, images and video circulating online.",
+            "url": "https://checkyourfact.com/",
         },
     ],
-    "International": [
+    "Global": [
         {
             "name": "Google Fact Check Explorer",
             "description": "Searches published, independently verified "
                             "fact-checks from accredited organisations "
                             "worldwide.",
             "url": "https://toolbox.google.com/factcheck/explorer",
+        },
+        {
+            "name": "Reuters Fact Check",
+            "description": "International news agency's fact-checking "
+                            "coverage examining viral social media claims "
+                            "and images from around the world.",
+            "url": "https://www.reuters.com/fact-check/",
+        },
+        {
+            "name": "NewsGuard",
+            "description": "Provides transparent reliability ratings for "
+                            "thousands of news and information sources "
+                            "worldwide, helping readers judge source "
+                            "trustworthiness at a glance.",
+            "url": "https://www.newsguardtech.com/",
+        },
+        {
+            "name": "FactOrFake (checkthisfact.com)",
+            "description": "Free, donation-funded AI-powered fact-checker "
+                            "that cross-references claims against credible "
+                            "sources in real time. Being AI-generated "
+                            "itself, treat its output as a helpful starting "
+                            "point rather than a final verdict.",
+            "url": "https://checkthisfact.com/",
         },
     ],
 }
@@ -385,103 +500,8 @@ FACT_CHECK_RESOURCES = {
 # ---------------------------------------------------------------------------
 # Free / freemium tools that can support - but never replace - human
 # verification, consistent with the NIST caution applied throughout
-# Appendix O that automated detection is uncertain and should inform,
+# Appendix K that automated detection is uncertain and should inform,
 # not determine, a decision.
-
-
-# ---------------------------------------------------------------------------
-# Calculation functions (Appendix O.3 and O.4)
-# ---------------------------------------------------------------------------
-
-def calculate_likelihood_score(source_credibility, content_authenticity,
-                                metadata_integrity, fact_consistency,
-                                propagation_pattern):
-    """
-    O.3 Likelihood calculation:
-        L = (S + C + M + F + P) / 5
-    Returns the raw average as a float (before banding).
-    """
-    total = (source_credibility + content_authenticity + metadata_integrity
-              + fact_consistency + propagation_pattern)
-    return total / 5
-
-
-def likelihood_rating_from_score(score):
-    """
-    O.3 Table O.2 - converts the raw average score into a whole-number
-    likelihood rating (1-5) using the stated banding.
-    """
-    if score <= 1.49:
-        return 1
-    elif score <= 2.49:
-        return 2
-    elif score <= 3.49:
-        return 3
-    elif score <= 4.49:
-        return 4
-    else:
-        return 5
-
-
-def impact_rating_from_factors(potential_harm, audience_reach, subject_sensitivity):
-    """
-    O.4 - "Where several impact categories apply, the highest reasonably
-    supported impact score should be selected." The overall impact rating
-    is therefore the MAXIMUM of the three factor scores, not an average.
-    """
-    return max(potential_harm, audience_reach, subject_sensitivity)
-
-
-def get_risk_level(likelihood_rating, impact_rating):
-    """O.5 Table O.4 - looks up the overall risk level from the 5x5 matrix."""
-    return RISK_MATRIX[likelihood_rating][impact_rating - 1]
-
-
-def get_response_requirement(risk_level):
-    """O.6 Table O.5 - minimum response required for the given risk level."""
-    return RESPONSE_REQUIREMENTS[risk_level]
-
-
-def assess_risk(source_credibility, content_authenticity, metadata_integrity,
-                 fact_consistency, propagation_pattern,
-                 potential_harm, audience_reach, subject_sensitivity):
-    """
-    Runs the full Appendix O assessment and returns a dictionary containing
-    every intermediate and final value needed by the results screen.
-    """
-    likelihood_score = calculate_likelihood_score(
-        source_credibility, content_authenticity, metadata_integrity,
-        fact_consistency, propagation_pattern,
-    )
-    likelihood_rating = likelihood_rating_from_score(likelihood_score)
-    impact_rating = impact_rating_from_factors(
-        potential_harm, audience_reach, subject_sensitivity,
-    )
-    risk_level = get_risk_level(likelihood_rating, impact_rating)
-    response = get_response_requirement(risk_level)
-
-    return {
-        "indicator_scores": {
-            "source_credibility": source_credibility,
-            "content_authenticity": content_authenticity,
-            "metadata_integrity": metadata_integrity,
-            "fact_consistency": fact_consistency,
-            "propagation_pattern": propagation_pattern,
-        },
-        "impact_scores": {
-            "potential_harm": potential_harm,
-            "audience_reach": audience_reach,
-            "subject_sensitivity": subject_sensitivity,
-        },
-        "likelihood_score": round(likelihood_score, 2),
-        "likelihood_rating": likelihood_rating,
-        "likelihood_label": LIKELIHOOD_LABELS[likelihood_rating],
-        "impact_rating": impact_rating,
-        "impact_label": IMPACT_LABELS[impact_rating],
-        "risk_level": risk_level,
-        "response_requirement": response,
-    }
-
 
 AI_CHECKER_TOOLS = [
     {
@@ -529,3 +549,96 @@ AI_CHECKER_TOOLS = [
         "cost": "Free tier available",
     },
 ]
+
+# ---------------------------------------------------------------------------
+# Calculation functions (Appendix K, Sections 2 and 3)
+# ---------------------------------------------------------------------------
+
+def calculate_likelihood_score(source_credibility, content_authenticity,
+                                metadata_integrity, fact_consistency,
+                                propagation_pattern):
+    """
+    K.2.2 Likelihood calculation:
+        L = (S + C + M + F + P) / 5
+    Returns the raw average as a float (before banding).
+    """
+    total = (source_credibility + content_authenticity + metadata_integrity
+              + fact_consistency + propagation_pattern)
+    return total / 5
+
+
+def likelihood_rating_from_score(score):
+    """
+    K.2.3 Table K.2 - converts the raw average score into a whole-number
+    likelihood rating (1-5) using the stated banding.
+    """
+    if score <= 1.49:
+        return 1
+    elif score <= 2.49:
+        return 2
+    elif score <= 3.49:
+        return 3
+    elif score <= 4.49:
+        return 4
+    else:
+        return 5
+
+
+def impact_rating_from_factors(potential_harm, audience_reach, subject_sensitivity):
+    """
+    K.3 - "Where several impact categories apply, the highest reasonably
+    supported impact score should be selected." The overall impact rating
+    is therefore the MAXIMUM of the three factor scores, not an average.
+    """
+    return max(potential_harm, audience_reach, subject_sensitivity)
+
+
+def get_risk_level(likelihood_rating, impact_rating):
+    """K.4 Table K.4 - looks up the overall risk level from the 5x5 matrix."""
+    return RISK_MATRIX[likelihood_rating][impact_rating - 1]
+
+
+def get_response_requirement(risk_level):
+    """K.5 Table K.5 - minimum response required for the given risk level."""
+    return RESPONSE_REQUIREMENTS[risk_level]
+
+
+def assess_risk(source_credibility, content_authenticity, metadata_integrity,
+                 fact_consistency, propagation_pattern,
+                 potential_harm, audience_reach, subject_sensitivity):
+    """
+    Runs the full Appendix K assessment and returns a dictionary containing
+    every intermediate and final value needed by the results screen.
+    """
+    likelihood_score = calculate_likelihood_score(
+        source_credibility, content_authenticity, metadata_integrity,
+        fact_consistency, propagation_pattern,
+    )
+    likelihood_rating = likelihood_rating_from_score(likelihood_score)
+    impact_rating = impact_rating_from_factors(
+        potential_harm, audience_reach, subject_sensitivity,
+    )
+    risk_level = get_risk_level(likelihood_rating, impact_rating)
+    response = get_response_requirement(risk_level)
+
+    return {
+        "indicator_scores": {
+            "source_credibility": source_credibility,
+            "content_authenticity": content_authenticity,
+            "metadata_integrity": metadata_integrity,
+            "fact_consistency": fact_consistency,
+            "propagation_pattern": propagation_pattern,
+        },
+        "impact_scores": {
+            "potential_harm": potential_harm,
+            "audience_reach": audience_reach,
+            "subject_sensitivity": subject_sensitivity,
+        },
+        "likelihood_score": round(likelihood_score, 2),
+        "likelihood_rating": likelihood_rating,
+        "likelihood_label": LIKELIHOOD_LABELS[likelihood_rating],
+        "impact_rating": impact_rating,
+        "impact_label": IMPACT_LABELS[impact_rating],
+        "risk_level": risk_level,
+        "response_requirement": response,
+    }

@@ -1,10 +1,10 @@
- # AI-Generated Misinformation Risk Assessment Tool
+# AI-Generated Misinformation Risk Assessment Tool
 
 A small Flask web application built to accompany the MSc Cyber Security
 dissertation *"AI-Generated Misinformation as an Emerging Cybersecurity
 Threat: Governance and Regulatory Challenges in the Era of Generative AI."*
 
-It implements the calculation logic from **Appendix O (AI-Generated
+It implements the calculation logic from **Appendix K (AI-Generated
 Misinformation Risk Assessment Matrix)** as a working tool, and provides
 two public-facing screens described in the dissertation's artefact list
 (Section 3.6): a curated fact-checking resource list and guidance for
@@ -27,7 +27,7 @@ level, while still being ready to push to GitHub and deploy publicly.
 
 The two informational screens are open to everyone because they are
 designed to be shared publicly. Only the Risk Matrix tool - an
-organisational/professional artefact from Appendix O - sits behind a
+organisational/professional artefact from Appendix K - sits behind a
 login, since it is intended for cybersecurity or risk analysts rather
 than the general public.
 
@@ -36,7 +36,7 @@ than the general public.
 ```
 ai_misinfo_webapp/
 ├── app.py                  Flask routes (public pages, login, dashboard, risk matrix)
-├── risk_engine.py           Appendix O logic and reference data (pure Python, no Flask)
+├── risk_engine.py           Appendix K logic and reference data (pure Python, no Flask)
 ├── requirements.txt
 ├── Procfile                 tells hosting platforms how to start the app (gunicorn)
 ├── .gitignore
@@ -122,18 +122,18 @@ tool.
 
 ## Mapping to the dissertation
 
-| Appendix O section | Where it is implemented |
+| Appendix K section | Where it is implemented |
 |---|---|
-| O.2 / O.3 Likelihood indicators & calculation | `risk_engine.LIKELIHOOD_INDICATORS`, `calculate_likelihood_score()`, `likelihood_rating_from_score()` |
-| O.4 Impact assessment | `risk_engine.IMPACT_FACTORS`, `impact_rating_from_factors()` (uses the maximum, not average, per Appendix O.4) |
-| O.5 5x5 risk matrix (Table O.4) | `risk_engine.RISK_MATRIX`, `get_risk_level()` |
-| O.6 Response requirements (Table O.5) | `risk_engine.RESPONSE_REQUIREMENTS` |
-| O.9 Verification checklist (Table O.7) | `risk_engine.VERIFICATION_CHECKLIST`, shown on the Risk Matrix screen |
-| O.9 Verification conclusions (Table O.9) | `risk_engine.VERIFICATION_CONCLUSIONS`, shown on the results panel |
-| O.10 Content-specific checks (Table O.8) | `risk_engine.CONTENT_SPECIFIC_CHECKS`, shown on the AI Content Checklist screen |
-| O.12 Independent confirmation rule | `risk_engine.INDEPENDENT_CONFIRMATION_ITEMS`, shown as a warning box on every result |
+| K.2 (2.1-2.3) Likelihood indicators & calculation | `risk_engine.LIKELIHOOD_INDICATORS`, `calculate_likelihood_score()`, `likelihood_rating_from_score()` |
+| K.2 (2.4) / K.3 Impact assessment | `risk_engine.IMPACT_FACTORS`, `impact_rating_from_factors()` (uses the maximum, not average, per Appendix K) |
+| K.4 5x5 risk matrix (Table K.4) | `risk_engine.RISK_MATRIX`, `get_risk_level()` |
+| K.5 Response requirements (Table K.5) | `risk_engine.RESPONSE_REQUIREMENTS` |
+| K.8 Verification checklist (Table K.7) | `risk_engine.VERIFICATION_CHECKLIST`, shown on the Risk Matrix screen |
+| K.10 Verification conclusions (Table K.8) | `risk_engine.VERIFICATION_CONCLUSIONS`, shown on the results panel |
+| K.9 Content-specific checks | `risk_engine.CONTENT_SPECIFIC_CHECKS`, shown on the AI Content Checklist screen |
+| K.11 Independent confirmation rule | `risk_engine.INDEPENDENT_CONFIRMATION_ITEMS`, shown as a warning box on every result |
 
-The worked example in Appendix O.7 (scores 4, 5, 4, 5, 4 for likelihood
+The worked example in Appendix K, Section 6 (scores 4, 5, 4, 5, 4 for likelihood
 and a Severe impact) was used to test `risk_engine.py` and correctly
 produces a likelihood score of 4.4 (High) combined with Severe impact to
 give an overall Extreme risk rating.
@@ -151,7 +151,7 @@ fully public production service, be aware that:
   `check_password_hash`) and support proper account management.
 - No persistent storage. Risk assessments are calculated and displayed
   but not saved anywhere. A production version would log each assessment
-  (see Appendix O.13, Minimum Verification Record) to a database for
+  (see Appendix K, Section 12, Minimum Verification Record) to a database for
   audit purposes.
 - Set `SECRET_KEY` via an environment variable on any public host. Never
   deploy with the fallback development key left in place.
@@ -159,9 +159,9 @@ fully public production service, be aware that:
   `1` to enable it). Never enable debug mode on a public deployment, as
   it can expose source code and internal state to visitors.
 - The risk matrix is a semi-quantitative governance aid, not a forensic
-  or statistical tool. As Appendix O states, it supports prioritisation
+  or statistical tool. As Appendix K states, it supports prioritisation
   and escalation; it does not prove that content is or is not
-  AI-generated. This is why the Independent Confirmation Rule (O.12) is
+  AI-generated. This is why the Independent Confirmation Rule (Section 11) is
   shown on every result regardless of the calculated score.
 - The fact-checker and AI-detection tool lists are illustrative. They
   point to real, currently operating services, but they should be
