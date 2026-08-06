@@ -201,6 +201,29 @@ button:hover, .btn:hover {
   margin-top: 4px;
 }
 
+table.legend-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 16px 0;
+  font-size: 12px;
+}
+
+table.legend-table td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  color: var(--grey-text);
+  vertical-align: top;
+}
+
+table.legend-table td.legend-score {
+  width: 26px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--navy);
+  background-color: var(--light-grey);
+  white-space: nowrap;
+}
+
 table.risk-matrix {
   border-collapse: collapse;
   width: 100%;

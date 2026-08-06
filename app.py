@@ -17,7 +17,7 @@ Screens
 4. /login         - login screen for the professional/analyst area
 5. /dashboard     - landing page after login, links to all tools
 6. /risk-matrix   - LOGIN REQUIRED: analyst enters scores, the 5x5 matrix
-                    from Appendix O is calculated and displayed
+                    from Appendix K is calculated and displayed
 
 The two public screens are intentionally NOT behind login, because they
 are designed to be shared with members of the public. Only the Risk
@@ -117,14 +117,14 @@ def risk_matrix():
 
     if request.method == "POST":
         try:
-            # Likelihood indicator scores (Appendix O, Table O.1)
+            # Likelihood indicator scores (Appendix K, Table K.1)
             source_credibility = int(request.form["source_credibility"])
             content_authenticity = int(request.form["content_authenticity"])
             metadata_integrity = int(request.form["metadata_integrity"])
             fact_consistency = int(request.form["fact_consistency"])
             propagation_pattern = int(request.form["propagation_pattern"])
 
-            # Impact factor scores (Appendix O, Table O.3)
+            # Impact factor scores (Appendix K, Table K.3)
             potential_harm = int(request.form["potential_harm"])
             audience_reach = int(request.form["audience_reach"])
             subject_sensitivity = int(request.form["subject_sensitivity"])
