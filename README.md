@@ -10,6 +10,96 @@ two public-facing screens described in the dissertation's artefact list
 (Section 3.6): a curated fact-checking resource list and guidance for
 recognising AI-generated content.
 
+## Purpose, Rationale, Benefits and Limitations
+
+### Purpose
+
+This tool operationalises the risk-assessment and verification process
+set out in Appendix K, turning its five-indicator likelihood calculation,
+impact rating and 5x5 risk matrix into a usable web application, alongside
+two public-facing resources (fact-checkers, AI-content recognition
+guidance) drawn from the dissertation's wider artefact set (Section 3.6).
+
+### Why this tool was prepared
+
+The dissertation finds that current cybersecurity governance and
+regulatory frameworks - including ISO/IEC 27001:2022, ISO/IEC 42001:2023,
+NIST CSF 2.0 and the NIST AI RMF - provide adaptable foundations but do
+not consistently specify how organisations should classify, verify,
+escalate and respond to externally generated misinformation (National
+Institute of Standards and Technology, 2023; International Organization
+for Standardization, 2022, 2023). Because AI-generated misinformation is
+a socio-technical threat - harm can occur through manipulated trust and
+decision-making without any technical system being compromised (Malatji,
+Von Solms and Marnewick, 2019) - governance principles need to be
+operationalised into a concrete, repeatable practice rather than left as
+abstract guidance. This tool exists to do exactly that.
+
+### Benefits
+
+- Converts a semi-quantitative methodology grounded in ISO 31000's
+  likelihood-times-consequence model (International Organization for
+  Standardization, 2018) into a consistent, auditable, repeatable score
+  that supports proportionate escalation rather than ad hoc judgement.
+- Makes free, independent verification resources accessible to
+  non-specialists, addressing the dissertation's finding that public
+  participants wanted accessible mechanisms for assessing potentially
+  misleading information.
+- Displays an independent-confirmation reminder on every result,
+  consistent with the recommendation that high-impact instructions should
+  always be verified through an established secondary channel rather than
+  accepted on the strength of a detection score alone.
+
+### Limitations
+
+- The output is a semi-quantitative governance rating, not a statistical
+  probability or forensic proof that content is AI-generated.
+- Automated content-authenticity detection remains inherently uncertain
+  and can be unreliable, so it should inform - not determine - the final
+  score (National Institute of Standards and Technology, 2024; Sadasivan
+  et al., 2023; Mirsky and Lee, 2021).
+- The underlying method has not been tested for inter-rater reliability
+  or validated across specific sectors, both identified as directions for
+  future research.
+- The framework was developed from cross-sectional qualitative research
+  with 25 cybersecurity professionals and 25 public participants recruited
+  through purposive, convenience and snowball sampling, which limits the
+  generalisability of the underlying evidence base.
+
+### Academic references
+
+International Organization for Standardization (ISO) (2018) *ISO
+31000:2018 Risk Management - Guidelines*. 2nd edn. Geneva: ISO.
+
+International Organization for Standardization (ISO) (2022) *ISO/IEC
+27001:2022 Information Security, Cybersecurity and Privacy Protection -
+Information Security Management Systems - Requirements*. Geneva: ISO.
+
+International Organization for Standardization (ISO) (2023) *ISO/IEC
+42001:2023 Information Technology - Artificial Intelligence - Management
+System*. Geneva: ISO.
+
+Malatji, M., Von Solms, S. and Marnewick, A. (2019) 'Socio-technical
+systems cybersecurity framework', *Information & Computer Security*,
+27(2), pp. 233-272. doi: 10.1108/ICS-03-2018-0031.
+
+Mirsky, Y. and Lee, W. (2021) 'The creation and detection of deepfakes: A
+survey', *ACM Computing Surveys*, 54(1), Article 7, pp. 1-41. doi:
+10.1145/3425780.
+
+National Institute of Standards and Technology (NIST) (2023)
+*Artificial Intelligence Risk Management Framework (AI RMF 1.0)*. NIST AI
+100-1. Gaithersburg, MD: NIST. doi: 10.6028/NIST.AI.100-1.
+
+National Institute of Standards and Technology (NIST) (2024) *Reducing
+Risks Posed by Synthetic Content: An Overview of Technical Approaches to
+Digital Content Transparency*. NIST AI 100-4. Gaithersburg, MD: NIST. doi:
+10.6028/NIST.AI.100-4.
+
+Sadasivan, V.S., Kumar, A., Balasubramanian, S., Wang, W. and Feizi, S.
+(2023) 'Can AI-generated text be reliably detected?', *arXiv*. doi:
+10.48550/arXiv.2303.11156.
+
 The code is intentionally simple (plain functions, no database, no
 JavaScript frameworks) so that it is easy to read, run and mark at MSc
 level, while still being ready to push to GitHub and deploy publicly.
@@ -138,7 +228,7 @@ and a Severe impact) was used to test `risk_engine.py` and correctly
 produces a likelihood score of 4.4 (High) combined with Severe impact to
 give an overall Extreme risk rating.
 
-## Important limitations (read before relying on this publicly)
+## Technical and Deployment Limitations (read before relying on this publicly)
 
 This started as an MSc dissertation prototype. Before treating it as a
 fully public production service, be aware that:
