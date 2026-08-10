@@ -1,259 +1,153 @@
 # AI-Generated Misinformation Risk Assessment Tool
 
-A small Flask web application built to accompany the MSc Cyber Security
-dissertation *"AI-Generated Misinformation as an Emerging Cybersecurity
-Threat: Governance and Regulatory Challenges in the Era of Generative AI."*
+## Introduction
 
-It implements the calculation logic from **Appendix K (AI-Generated
-Misinformation Risk Assessment Matrix)** as a working tool, and provides
-two public-facing screens described in the dissertation's artefact list
-(Section 3.6): a curated fact-checking resource list and guidance for
-recognising AI-generated content.
+The **AI-Generated Misinformation Risk Assessment Tool** is a Flask-based web application prepared as part of the **Artefact Submission for the MSc Cyber Security Dissertation**, *AI-Generated Misinformation as an Emerging Cybersecurity Threat: Governance and Regulatory Challenges in the Era of Generative AI*.
 
-## Purpose, Rationale, Benefits and Limitations
+The tool is an **original contribution of the dissertation project** and translates the research findings into a practical decision-support resource for assessing suspected AI-generated misinformation. It combines a semi-quantitative risk assessment workflow with verification guidance, fact-checking resources and content-specific checks for text, images, audio, video and multimodal content.
 
-### Purpose
+**Public access:** [Open the deployed tool](https://ai-misinformation.onrender.com/)
 
-This tool operationalises the risk-assessment and verification process
-set out in Appendix K, turning its five-indicator likelihood calculation,
-impact rating and 5x5 risk matrix into a usable web application, alongside
-two public-facing resources (fact-checkers, AI-content recognition
-guidance) drawn from the dissertation's wider artefact set (Section 3.6).
 
-### Why this tool was prepared
+## Purpose
 
-The dissertation finds that current cybersecurity governance and
-regulatory frameworks - including ISO/IEC 27001:2022, ISO/IEC 42001:2023,
-NIST CSF 2.0 and the NIST AI RMF - provide adaptable foundations but do
-not consistently specify how organisations should classify, verify,
-escalate and respond to externally generated misinformation (National
-Institute of Standards and Technology, 2023; International Organization
-for Standardization, 2022, 2023). Because AI-generated misinformation is
-a socio-technical threat - harm can occur through manipulated trust and
-decision-making without any technical system being compromised (Malatji,
-Von Solms and Marnewick, 2019) - governance principles need to be
-operationalised into a concrete, repeatable practice rather than left as
-abstract guidance. This tool exists to do exactly that.
+The purpose of the tool is to provide a structured and repeatable way to support the assessment of suspected AI-generated misinformation. It is intended to help users:
 
-### Benefits
+- assess five likelihood indicators: source credibility, content authenticity, metadata integrity, factual consistency and propagation pattern;
+- combine likelihood with impact through a 5×5 risk matrix;
+- apply proportionate response and escalation guidance;
+- review practical verification steps before relying on automated detection outputs;
+- access fact-checking and content-verification resources; and
+- reinforce independent confirmation for high-impact instructions or communications.
 
-- Converts a semi-quantitative methodology grounded in ISO 31000's
-  likelihood-times-consequence model (International Organization for
-  Standardization, 2018) into a consistent, auditable, repeatable score
-  that supports proportionate escalation rather than ad hoc judgement.
-- Makes free, independent verification resources accessible to
-  non-specialists, addressing the dissertation's finding that public
-  participants wanted accessible mechanisms for assessing potentially
-  misleading information.
-- Displays an independent-confirmation reminder on every result,
-  consistent with the recommendation that high-impact instructions should
-  always be verified through an established secondary channel rather than
-  accepted on the strength of a detection score alone.
+The application is designed as a **governance and decision-support tool**, not as an automated system for proving whether content is AI-generated.
 
-### Limitations
+## Benefits
 
-- The output is a semi-quantitative governance rating, not a statistical
-  probability or forensic proof that content is AI-generated.
-- Automated content-authenticity detection remains inherently uncertain
-  and can be unreliable, so it should inform - not determine - the final
-  score (National Institute of Standards and Technology, 2024; Sadasivan
-  et al., 2023; Mirsky and Lee, 2021).
-- The underlying method has not been tested for inter-rater reliability
-  or validated across specific sectors, both identified as directions for
-  future research.
-- The framework was developed from cross-sectional qualitative research
-  with 25 cybersecurity professionals and 25 public participants recruited
-  through purposive, convenience and snowball sampling, which limits the
-  generalisability of the underlying evidence base.
+- Provides a consistent and transparent assessment method rather than relying only on informal judgement.
+- Connects content verification with likelihood, impact and proportionate escalation.
+- Encourages users to combine technical indicators with source, contextual and factual verification.
+- Supports organisational decision-making where synthetic content may affect financial, operational, reputational, regulatory or safety outcomes.
+- Provides accessible public-facing guidance and independent fact-checking resources.
+- Demonstrates how the dissertation's original cybersecurity-governance contribution can be operationalised as a practical web application.
 
-### Academic references
+## Limitations
 
-International Organization for Standardization (ISO) (2018) *ISO
-31000:2018 Risk Management - Guidelines*. 2nd edn. Geneva: ISO.
+- The output is a **semi-quantitative governance rating**, not a statistical probability, forensic conclusion or proof of AI generation.
+- Automated AI-content detection remains uncertain and may produce false positives or false negatives; detector outputs should therefore inform, rather than determine, the assessment (Mirsky and Lee, 2021; NIST, 2024).
+- The underlying assessment method has not yet been tested for inter-rater reliability or validated across multiple industry sectors.
+- The research underpinning the tool was qualitative and cross-sectional; its findings are analytically useful but are not statistically generalisable to all organisations or populations.
+- The tool depends partly on external verification and fact-checking services whose availability, functionality or URLs may change over time.
 
-International Organization for Standardization (ISO) (2022) *ISO/IEC
-27001:2022 Information Security, Cybersecurity and Privacy Protection -
-Information Security Management Systems - Requirements*. Geneva: ISO.
+## Academic References
 
-International Organization for Standardization (ISO) (2023) *ISO/IEC
-42001:2023 Information Technology - Artificial Intelligence - Management
-System*. Geneva: ISO.
+International Organization for Standardization (ISO) (2018) *ISO 31000:2018 Risk Management — Guidelines*. 2nd edn. Geneva: ISO.
 
-Malatji, M., Von Solms, S. and Marnewick, A. (2019) 'Socio-technical
-systems cybersecurity framework', *Information & Computer Security*,
-27(2), pp. 233-272. doi: 10.1108/ICS-03-2018-0031.
+International Organization for Standardization (ISO) (2022) *ISO/IEC 27001:2022 Information Security, Cybersecurity and Privacy Protection — Information Security Management Systems — Requirements*. Geneva: ISO.
 
-Mirsky, Y. and Lee, W. (2021) 'The creation and detection of deepfakes: A
-survey', *ACM Computing Surveys*, 54(1), Article 7, pp. 1-41. doi:
-10.1145/3425780.
+International Organization for Standardization (ISO) (2023) *ISO/IEC 42001:2023 Information Technology — Artificial Intelligence — Management System*. Geneva: ISO.
 
-National Institute of Standards and Technology (NIST) (2023)
-*Artificial Intelligence Risk Management Framework (AI RMF 1.0)*. NIST AI
-100-1. Gaithersburg, MD: NIST. doi: 10.6028/NIST.AI.100-1.
+Malatji, M., Von Solms, S. and Marnewick, A. (2019) 'Socio-technical systems cybersecurity framework', *Information & Computer Security*, 27(2), pp. 233–272. doi: 10.1108/ICS-03-2018-0031.
 
-National Institute of Standards and Technology (NIST) (2024) *Reducing
-Risks Posed by Synthetic Content: An Overview of Technical Approaches to
-Digital Content Transparency*. NIST AI 100-4. Gaithersburg, MD: NIST. doi:
-10.6028/NIST.AI.100-4.
+Mirsky, Y. and Lee, W. (2021) 'The creation and detection of deepfakes: A survey', *ACM Computing Surveys*, 54(1), Article 7, pp. 1–41. doi: 10.1145/3425780.
 
-Sadasivan, V.S., Kumar, A., Balasubramanian, S., Wang, W. and Feizi, S.
-(2023) 'Can AI-generated text be reliably detected?', *arXiv*. doi:
-10.48550/arXiv.2303.11156.
+National Institute of Standards and Technology (NIST) (2023) *Artificial Intelligence Risk Management Framework (AI RMF 1.0)*. NIST AI 100-1. Gaithersburg, MD: NIST. doi: 10.6028/NIST.AI.100-1.
 
-The code is intentionally simple (plain functions, no database, no
-JavaScript frameworks) so that it is easy to read, run and mark at MSc
-level, while still being ready to push to GitHub and deploy publicly.
+National Institute of Standards and Technology (NIST) (2024) *Reducing Risks Posed by Synthetic Content: An Overview of Technical Approaches to Digital Content Transparency*. NIST AI 100-4. Gaithersburg, MD: NIST. doi: 10.6028/NIST.AI.100-4.
 
-## Which screens are public and which need a login
+## Project Structure
 
-| Screen | Route | Access |
-|---|---|---|
-| Home | `/` | **Public** |
-| Fact-Checker Resources | `/fact-checkers` | **Public** |
-| AI Content Checklist | `/ai-checklist` | **Public** |
-| Login | `/login` | Public (this *is* the sign-in form) |
-| Dashboard | `/dashboard` | Requires login |
-| Risk Matrix Tool | `/risk-matrix` | Requires login |
-
-The two informational screens are open to everyone because they are
-designed to be shared publicly. Only the Risk Matrix tool - an
-organisational/professional artefact from Appendix K - sits behind a
-login, since it is intended for cybersecurity or risk analysts rather
-than the general public.
-
-## Project structure
-
-```
+```text
 ai_misinfo_webapp/
-├── app.py                  Flask routes (public pages, login, dashboard, risk matrix)
-├── risk_engine.py           Appendix K logic and reference data (pure Python, no Flask)
-├── requirements.txt
-├── Procfile                 tells hosting platforms how to start the app (gunicorn)
+├── app.py                  Flask routes, authentication and application flow
+├── risk_engine.py          Risk-scoring and verification logic
+├── requirements.txt        Python dependencies
+├── Procfile                Production start command for Gunicorn
 ├── .gitignore
 ├── README.md
 ├── static/
 │   └── style.css
 └── templates/
-    ├── base.html            shared layout, navigation, flash messages
-    ├── home.html            public landing page
+    ├── base.html
+    ├── home.html
     ├── login.html
     ├── dashboard.html
-    ├── risk_matrix.html      main tool: scoring form + calculated result (login required)
-    ├── fact_checkers.html    free fact-checking resources (public)
-    └── ai_checklist.html     content-specific checks + AI checker tool list (public)
+    ├── risk_matrix.html
+    ├── fact_checkers.html
+    └── ai_checklist.html
 ```
 
-## Running it locally
+### Run Locally
 
-1. Create and activate a virtual environment (optional but recommended):
+1. Create and activate a virtual environment:
 
-   ```
+   ```bash
    python3 -m venv venv
-   source venv/bin/activate        # Windows: venv\Scripts\activate
+   source venv/bin/activate
+   ```
+
+   On Windows:
+
+   ```powershell
+   venv\Scripts\activate
    ```
 
 2. Install dependencies:
 
-   ```
+   ```bash
    pip install -r requirements.txt
    ```
 
 3. Run the application:
 
-   ```
+   ```bash
    python app.py
    ```
 
-4. Open a browser at `http://127.0.0.1:5000/`. The home page, fact-checker
-   resources and AI content checklist are open immediately. To use the
-   Risk Matrix tool, click **Analyst Login** and sign in with the demo
-   credentials shown on the login page (username `analyst`, password
-   `ChangeMe123`).
+4. Open:
 
-## Putting it on GitHub
+   ```text
+   http://127.0.0.1:5000/
+   ```
 
-```
-cd ai_misinfo_webapp
-git init
-git add .
-git commit -m "Initial commit: AI-generated misinformation risk assessment tool"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-git push -u origin main
-```
+### Run Publicly
 
-The `.gitignore` file already excludes virtual environments, `__pycache__`,
-and any `.env` file, so secrets are never committed.
+The project can be deployed to a Python-compatible hosting platform such as Render, Railway, PythonAnywhere or another Gunicorn-compatible service.
 
-## Deploying it publicly (example: Render, free tier)
+A typical deployment workflow is:
 
-Any Python-friendly host that reads a `Procfile` (Render, Railway,
-Heroku-style platforms, PythonAnywhere, etc.) will work. Using Render as
-an example:
+1. Push the project to a private or public GitHub repository.
+2. Create a new web service on the selected hosting platform and connect the repository.
+3. Use the build command:
 
-1. Push the project to GitHub as shown above.
-2. Create a free account at render.com and choose **New -> Web Service**,
-   then connect your GitHub repository.
-3. Set the build command to `pip install -r requirements.txt`.
-4. Set the start command to `gunicorn app:app` (this is what the
-   `Procfile` already specifies).
-5. Add these environment variables in the host's dashboard (do not put
-   real values in code or in GitHub):
-   - `SECRET_KEY` - any long random string
-   - `APP_USERNAME` - the login username you want to use
-   - `APP_PASSWORD` - a strong password of your choice
-6. Deploy. The platform will give you a public URL such as
-   `https://your-app-name.onrender.com`.
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Because the fact-checker and AI-checklist pages do not require a login,
-anyone with the link can use them immediately. Only people you give the
-`APP_USERNAME` / `APP_PASSWORD` to will be able to reach the Risk Matrix
-tool.
+4. Use the start command:
 
-## Mapping to the dissertation
+   ```bash
+   gunicorn app:app
+   ```
 
-| Appendix K section | Where it is implemented |
-|---|---|
-| K.2 (2.1-2.3) Likelihood indicators & calculation | `risk_engine.LIKELIHOOD_INDICATORS`, `calculate_likelihood_score()`, `likelihood_rating_from_score()` |
-| K.2 (2.4) / K.3 Impact assessment | `risk_engine.IMPACT_FACTORS`, `impact_rating_from_factors()` (uses the maximum, not average, per Appendix K) |
-| K.4 5x5 risk matrix (Table K.4) | `risk_engine.RISK_MATRIX`, `get_risk_level()` |
-| K.5 Response requirements (Table K.5) | `risk_engine.RESPONSE_REQUIREMENTS` |
-| K.8 Verification checklist (Table K.7) | `risk_engine.VERIFICATION_CHECKLIST`, shown on the Risk Matrix screen |
-| K.10 Verification conclusions (Table K.8) | `risk_engine.VERIFICATION_CONCLUSIONS`, shown on the results panel |
-| K.9 Content-specific checks | `risk_engine.CONTENT_SPECIFIC_CHECKS`, shown on the AI Content Checklist screen |
-| K.11 Independent confirmation rule | `risk_engine.INDEPENDENT_CONFIRMATION_ITEMS`, shown as a warning box on every result |
+5. Configure the following environment variables on the hosting platform:
 
-The worked example in Appendix K, Section 6 (scores 4, 5, 4, 5, 4 for likelihood
-and a Severe impact) was used to test `risk_engine.py` and correctly
-produces a likelihood score of 4.4 (High) combined with Severe impact to
-give an overall Extreme risk rating.
+   ```text
+   SECRET_KEY=<long-random-secret>
+   APP_USERNAME=<chosen-username>
+   APP_PASSWORD=<strong-password>
+   ```
 
-## Technical and Deployment Limitations (read before relying on this publicly)
+6. Deploy the application and verify that the public URL is accessible: `https://ai-misinformation.onrender.com/`.
 
-This started as an MSc dissertation prototype. Before treating it as a
-fully public production service, be aware that:
+## Notes
 
-- Authentication is a small username/password check (`DEMO_USERS` in
-  `app.py`), configurable via the `APP_USERNAME` / `APP_PASSWORD`
-  environment variables. It does not hash passwords or support multiple
-  accounts. A real production system would store salted password hashes
-  in a database (e.g. `werkzeug.security.generate_password_hash` /
-  `check_password_hash`) and support proper account management.
-- No persistent storage. Risk assessments are calculated and displayed
-  but not saved anywhere. A production version would log each assessment
-  (see Appendix K, Section 12, Minimum Verification Record) to a database for
-  audit purposes.
-- Set `SECRET_KEY` via an environment variable on any public host. Never
-  deploy with the fallback development key left in place.
-- Debug mode is off by default (`FLASK_DEBUG` must be explicitly set to
-  `1` to enable it). Never enable debug mode on a public deployment, as
-  it can expose source code and internal state to visitors.
-- The risk matrix is a semi-quantitative governance aid, not a forensic
-  or statistical tool. As Appendix K states, it supports prioritisation
-  and escalation; it does not prove that content is or is not
-  AI-generated. This is why the Independent Confirmation Rule (Section 11) is
-  shown on every result regardless of the calculated score.
-- The fact-checker and AI-detection tool lists are illustrative. They
-  point to real, currently operating services, but they should be
-  reviewed periodically to confirm links are still active and to add new
-  tools as detection technology develops.
+- This application was developed specifically as part of the **Artefact Submission for the MSc Cyber Security Dissertation** and represents an **original contribution of the research project**.
+- The application is an academic prototype and should not be treated as a production-grade security or forensic platform without further engineering and validation.
+- Authentication is intentionally lightweight and is suitable only for demonstration/prototype use. A production system should implement secure password hashing, account management, access control and stronger session-security controls.
+- Risk assessments are calculated and displayed but are not persistently stored. A production deployment would require secure database-backed audit records if assessment history must be retained.
+- `SECRET_KEY`, usernames and passwords should be configured through environment variables and must not be committed to the source repository.
+- Debug mode must remain disabled on publicly accessible deployments.
+- The tool does not independently establish authenticity or malicious intent. High-impact instructions should always be confirmed through a trusted secondary communication channel regardless of the calculated risk score.
+- External fact-checking and AI-detection resources should be reviewed periodically because service availability and detection capabilities can change.
+- Future development should include sector-specific validation, inter-rater reliability testing, stronger authentication, persistent audit logging and usability evaluation with organisational users.
