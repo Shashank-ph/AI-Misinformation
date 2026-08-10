@@ -23,9 +23,6 @@ The two public screens are intentionally NOT behind login, because they
 are designed to be shared with members of the public. Only the Risk
 Matrix tool (an organisational/professional artefact) requires sign-in.
 
-The code is deliberately kept simple (function-based Flask routes, no
-database, no JavaScript frameworks) so that it is easy to read, run and
-mark at MSc level. See README.md for setup and deployment instructions.
 """
 
 import os
@@ -40,7 +37,6 @@ app = Flask(__name__)
 # The secret key is read from an environment variable so that it is never
 # committed to GitHub. If SECRET_KEY is not set (e.g. running locally for
 # the first time), a fallback development value is used instead - this
-# fallback must NOT be relied on for any public deployment.
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-before-any-real-deployment")
 
 
@@ -51,8 +47,8 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-before-any-
 # control for this MSc-level prototype. Credentials can optionally be
 # overridden with environment variables (useful when hosting publicly, so
 # the real password is not stored in the GitHub repository). This is still
-# NOT suitable for a real production system - see README.md for what a
-# production version would need instead (hashed passwords in a database,
+# NOT suitable for a real production system.
+# Production version would need instead (hashed passwords in a database,
 # HTTPS, account lockout, etc.).
 DEMO_USERS = {
     os.environ.get("APP_USERNAME", "analyst"): os.environ.get("APP_PASSWORD", "ChangeMe123"),

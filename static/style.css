@@ -1,7 +1,6 @@
 /* style.css
    Shared stylesheet for the AI-Generated Misinformation Risk Assessment
-   Matrix web application. Kept as plain CSS (no framework) to match the
-   simple, MSc-level coding approach used throughout the project. */
+   Matrix web application. */
 
 :root {
   --navy: #1f4e79;
