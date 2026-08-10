@@ -14,13 +14,13 @@
   <details>
     <summary><strong>Verification checklist (complete before scoring)</strong></summary>
     {% for step in checklist_steps %}
-      <div class="checklist-step">
-        <div class="step-number">{{ step.step }}</div>
-        <div>
-          <strong>{{ step.action }}</strong><br>
-          <span class="desc">{{ step.detail }}</span>
-        </div>
+    <div class="checklist-step">
+      <div class="step-number">{{ step.step }}</div>
+      <div>
+        <strong>{{ step.action }}</strong><br>
+        <span class="desc">{{ step.detail }}</span>
       </div>
+    </div>
     {% endfor %}
   </details>
 </div>
@@ -28,11 +28,11 @@
 <div class="card">
   <form method="POST" action="{{ url_for('risk_matrix') }}">
 
-    <label for="case_reference">Case reference (optional)</label>
-    <input type="text" id="case_reference" name="case_reference"
-           placeholder="e.g. CASE-2026-014" value="{{ form_values.get('case_reference', '') }}">
+    <label for="case_reference">Case reference </label>
+    <input type="text" id="case_reference" name="case_reference" placeholder="e.g. CASE-2026-014"
+      value="{{ form_values.get('case_reference', '') }}">
 
-    <label for="content_description">Content description (optional)</label>
+    <label for="content_description">Content description </label>
     <textarea id="content_description" name="content_description" rows="2"
       placeholder="Brief description of the suspected content, e.g. video, source, claim">{{ form_values.get('content_description', '') }}</textarea>
 
@@ -43,53 +43,53 @@
       and 5 anchor points, so every score has a clear definition.
     </p>
     {% for indicator in indicators %}
-      <div class="indicator-row">
-        <label for="{{ indicator.key }}">{{ indicator.label }}</label>
-        <select id="{{ indicator.key }}" name="{{ indicator.key }}" required>
-          <option value="">Select a score...</option>
-          {% for score in [1,2,3,4,5] %}
-            <option value="{{ score }}" {% if form_values.get(indicator.key)|string == score|string %}selected{% endif %}>
-              {{ score }} &mdash; {{ indicator['level_' ~ score] }}
-            </option>
-          {% endfor %}
-        </select>
-        <table class="legend-table">
-          {% for score in [1,2,3,4,5] %}
-            <tr>
-              <td class="legend-score">{{ score }}</td>
-              <td>{{ indicator['level_' ~ score] }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
+    <div class="indicator-row">
+      <label for="{{ indicator.key }}">{{ indicator.label }}</label>
+      <select id="{{ indicator.key }}" name="{{ indicator.key }}" required>
+        <option value="">Select a score...</option>
+        {% for score in [1,2,3,4,5] %}
+        <option value="{{ score }}" {% if form_values.get(indicator.key)|string==score|string %}selected{% endif %}>
+          {{ score }} &mdash; {{ indicator['level_' ~ score] }}
+        </option>
+        {% endfor %}
+      </select>
+      <table class="legend-table">
+        {% for score in [1,2,3,4,5] %}
+        <tr>
+          <td class="legend-score">{{ score }}</td>
+          <td>{{ indicator['level_' ~ score] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
     {% endfor %}
 
     <h3>Impact factors</h3>
     <p class="desc">
       The overall impact rating is the <strong>highest</strong> of the three
-      scores below, not an average (Appendix K, Section 3). All three
+      scores below, not an average. All three
       factors share the same 1&ndash;5 scale, shown in the legend table.
     </p>
     <table class="legend-table">
       {% for score in [1,2,3,4,5] %}
-        <tr>
-          <td class="legend-score">{{ score }} &ndash; {{ impact_labels[score] }}</td>
-          <td>{{ impact_criteria[score] }}</td>
-        </tr>
+      <tr>
+        <td class="legend-score">{{ score }} &ndash; {{ impact_labels[score] }}</td>
+        <td>{{ impact_criteria[score] }}</td>
+      </tr>
       {% endfor %}
     </table>
     {% for factor in impact_factors %}
-      <div class="indicator-row">
-        <label for="{{ factor.key }}">{{ factor.label }}</label>
-        <select id="{{ factor.key }}" name="{{ factor.key }}" required>
-          <option value="">Select a score...</option>
-          {% for score in [1,2,3,4,5] %}
-            <option value="{{ score }}" {% if form_values.get(factor.key)|string == score|string %}selected{% endif %}>
-              {{ score }} &mdash; {{ impact_labels[score] }}
-            </option>
-          {% endfor %}
-        </select>
-      </div>
+    <div class="indicator-row">
+      <label for="{{ factor.key }}">{{ factor.label }}</label>
+      <select id="{{ factor.key }}" name="{{ factor.key }}" required>
+        <option value="">Select a score...</option>
+        {% for score in [1,2,3,4,5] %}
+        <option value="{{ score }}" {% if form_values.get(factor.key)|string==score|string %}selected{% endif %}>
+          {{ score }} &mdash; {{ impact_labels[score] }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
     {% endfor %}
 
     <button type="submit">Calculate Risk</button>
@@ -136,19 +136,19 @@
     <tr>
       <th>{{ l }} {{ likelihood_labels[l] }}</th>
       {% for i in [1,2,3,4,5] %}
-        {% set cell = matrix[l][i-1] %}
-        {% if l == result.likelihood_rating and i == result.impact_rating %}
-          <td class="cell-{{ cell }} cell-active">{{ cell }} &#9668;</td>
-        {% else %}
-          <td class="cell-{{ cell }}">{{ cell }}</td>
-        {% endif %}
+      {% set cell = matrix[l][i-1] %}
+      {% if l == result.likelihood_rating and i == result.impact_rating %}
+      <td class="cell-{{ cell }} cell-active">{{ cell }} &#9668;</td>
+      {% else %}
+      <td class="cell-{{ cell }}">{{ cell }}</td>
+      {% endif %}
       {% endfor %}
     </tr>
     {% endfor %}
   </table>
 
   <div class="warning-box">
-    <strong>Independent confirmation rule (Appendix K, Section 11):</strong> regardless
+    <strong>Independent confirmation rule :</strong> regardless
     of the score above, the following must always be independently confirmed
     through an established channel before anyone acts on them:
     <ul>
@@ -158,14 +158,20 @@
 
   <h3>Verification conclusion &mdash; select the one that best fits your evidence</h3>
   <table class="simple-table">
-    <tr><th>Conclusion</th><th>Meaning</th></tr>
+    <tr>
+      <th>Conclusion</th>
+      <th>Meaning</th>
+    </tr>
     {% for c in verification_conclusions %}
-      <tr><td>{{ c.conclusion }}</td><td>{{ c.meaning }}</td></tr>
+    <tr>
+      <td>{{ c.conclusion }}</td>
+      <td>{{ c.meaning }}</td>
+    </tr>
     {% endfor %}
   </table>
   <p class="desc">
     This tool produces a semi-quantitative governance rating, not a
-    statistical probability or forensic proof of AI generation (Appendix K, Section 1).
+    statistical probability or forensic proof of AI generation.
   </p>
 </div>
 {% endif %}

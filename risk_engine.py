@@ -1,15 +1,13 @@
 """
 risk_engine.py
 
-Plain-Python implementation of the AI-Generated Misinformation Risk
-Assessment Matrix described in Appendix K of the dissertation:
+Python implementation of the AI-Generated Misinformation Risk
+Assessment Matrix:
 
     "AI-Generated Misinformation as an Emerging Cybersecurity Threat:
     Governance and Regulatory Challenges in the Era of Generative AI"
 
-This module deliberately avoids classes and external dependencies so
-that the calculation logic is easy to read, test and mark at MSc
-level. All reference data (indicators, matrix, checklists, resources)
+All reference data (indicators, matrix, checklists, resources)
 is stored as simple Python lists/dictionaries so it can be inspected
 or edited without touching the Flask routes in app.py.
 
@@ -30,12 +28,6 @@ Sections map directly onto Appendix K of the dissertation:
 # ---------------------------------------------------------------------------
 # Each indicator is scored 1-5 by the user. 1 = low suspicion, 5 = high
 # suspicion. The five scores are averaged to produce the likelihood score.
-#
-# Appendix K itself defines worked anchors only at 1, 3 and 5, and states
-# that "scores of 2 and 4 should be used where the evidence lies between
-# the stated anchors." The level_2 and level_4 descriptions below make
-# that intermediate guidance explicit for each indicator, so the tool
-# shows a full 1-5 legend rather than leaving 2 and 4 undefined.
 
 LIKELIHOOD_INDICATORS = [
     {
@@ -96,9 +88,9 @@ LIKELIHOOD_LABELS = {
 # ---------------------------------------------------------------------------
 # K.2 (2.4) / K.3 - Impact factors
 # ---------------------------------------------------------------------------
-# Impact is assessed across three factors. Per Appendix K ("Where several
+# Impact is assessed across three factors. Where several
 # impact categories apply, the highest reasonably supported impact score
-# should be selected"), the overall impact rating is the MAXIMUM of the
+# should be selected, the overall impact rating is the MAXIMUM of the
 # three factor scores, not an average.
 
 IMPACT_FACTORS = [
@@ -498,10 +490,8 @@ FACT_CHECK_RESOURCES = {
 # ---------------------------------------------------------------------------
 # AI-generated content recognition tools ("AI checker list")
 # ---------------------------------------------------------------------------
-# Free / freemium tools that can support - but never replace - human
-# verification, consistent with the NIST caution applied throughout
-# Appendix K that automated detection is uncertain and should inform,
-# not determine, a decision.
+# Free tools that can support human verification, 
+# consistent with the NIST caution applied throughout.
 
 AI_CHECKER_TOOLS = [
     {

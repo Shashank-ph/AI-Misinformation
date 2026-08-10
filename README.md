@@ -6,7 +6,7 @@ The **AI-Generated Misinformation Risk Assessment Tool** is a Flask-based web ap
 
 The tool is an **original contribution of the dissertation project** and translates the research findings into a practical decision-support resource for assessing suspected AI-generated misinformation. It combines a semi-quantitative risk assessment workflow with verification guidance, fact-checking resources and content-specific checks for text, images, audio, video and multimodal content.
 
-**Public access:** [Open the deployed tool](https://ai-misinformation.onrender.com/)
+**Public access:** [Deployed Artefact](https://ai-misinformation.onrender.com/)
 
 
 ## Purpose
@@ -20,7 +20,7 @@ The purpose of the tool is to provide a structured and repeatable way to support
 - access fact-checking and content-verification resources; and
 - reinforce independent confirmation for high-impact instructions or communications.
 
-The application is designed as a **governance and decision-support tool**, not as an automated system for proving whether content is AI-generated.
+The application is designed as a governance and decision-support tool, not as an automated system for proving whether content is AI-generated.
 
 ## Benefits
 
@@ -33,7 +33,7 @@ The application is designed as a **governance and decision-support tool**, not a
 
 ## Limitations
 
-- The output is a **semi-quantitative governance rating**, not a statistical probability, forensic conclusion or proof of AI generation.
+- The output is a semi-quantitative governance rating, not a statistical probability, forensic conclusion or proof of AI generation.
 - Automated AI-content detection remains uncertain and may produce false positives or false negatives; detector outputs should therefore inform, rather than determine, the assessment (Mirsky and Lee, 2021; NIST, 2024).
 - The underlying assessment method has not yet been tested for inter-rater reliability or validated across multiple industry sectors.
 - The research underpinning the tool was qualitative and cross-sectional; its findings are analytically useful but are not statistically generalisable to all organisations or populations.
@@ -142,7 +142,7 @@ A typical deployment workflow is:
 
 ## Notes
 
-- This application was developed specifically as part of the **Artefact Submission for the MSc Cyber Security Dissertation** and represents an **original contribution of the research project**.
+- This application was developed specifically as part of the **Artefact Submission for the MSc Cyber Security Dissertation** and represents an original contribution of the research project.
 - The application is an academic prototype and should not be treated as a production-grade security or forensic platform without further engineering and validation.
 - Authentication is intentionally lightweight and is suitable only for demonstration/prototype use. A production system should implement secure password hashing, account management, access control and stronger session-security controls.
 - Risk assessments are calculated and displayed but are not persistently stored. A production deployment would require secure database-backed audit records if assessment history must be retained.
